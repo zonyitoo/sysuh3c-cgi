@@ -1,7 +1,7 @@
+#include "cgic/cgic.h"
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include "cgic/cgic.h"
 
 void gen_page(const char * fname) {
     if (fname == NULL) return;
@@ -23,18 +23,23 @@ void gen_page(const char * fname) {
 }
 
 int cgiMain() {
-    
-    if (strncmp(cgiRequestMethod, "GET", 3) == 0) {
-        FILE * fp = fopen("/tmp/clih3c.lock", "r");
-        if (fp) {
-            gen_page("logoff.html");
-            fclose(fp);
+
+    if (strncmp(cgiRequestMethod, "POST", 4) == 0) {
+
+        int ret = system("clih3c -l >> /dev/null");
+
+        cgiHeaderContentType("application/json");
+        if (ret == 0) {
+            fprintf(cgiOut, "{\"err\": false, \"msg\": \"Logoff Success\"}");
         }
-        else
-            gen_page("login.html");
+        else {
+            fprintf(cgiOut, "{\"err\": true, \"msg\": \"Logoff Failed\"}");
+        }
+
     }
     else {
         cgiHeaderStatus(403, "Method Not Allowed");
     }
+
     return 0;
 }

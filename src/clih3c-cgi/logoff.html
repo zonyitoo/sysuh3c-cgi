@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+  <head>
+    <meta charset="utf-8">
+    <title>Mobile-Logoff</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Login">
+    <meta name="author" content="CyrilZhao">
+    <link rel="stylesheet" href="/clih3c-cgi/css/jquery.mobile-1.3.1.min.css" />
+    <script src="/clih3c-cgi/js/jquery-1.9.1.min.js"></script>
+    <script src="/clih3c-cgi/js/jquery.mobile-1.3.1.min.js"></script>
+    <style type="text/css">
+      #show-dialog {
+        display: none;
+      }
+
+      #msg-content {
+        text-align: center;
+        font-weight: bold;
+      }
+
+      .content {
+        width: 100px;
+        margin: 0 auto;
+      }
+
+      .closeBtnDiv {
+        display: block;
+        width: 80px;
+        margin: 0 auto;
+        text-align: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div data-role="page">
+      <div data-role="header">
+        <h1>User Logoff</h1>
+      </div><!-- /header -->
+      <div data-role="content" id="logoff-content">
+        <div class="content">   
+          <a data-role="button" data-inline="true" data-theme="b" id="logoff">Logoff</a>
+          <a href="#logoff-dialog" data-rel="dialog" id="show-dialog">Open dialog</a> 
+        </div>
+      </div><!-- /content -->
+      <div data-role="footer">
+        <h4>@power by Tencent</h4>
+      </div><!-- /footer -->
+    </div><!-- /page -->
+
+    <div data-role="page" id="logoff-dialog">
+      <div data-role="header" data-backbtn="false">
+        <h1>Dialog Title</h1>
+      </div><!-- /header -->
+      <div data-role="content" id="msg-content">   
+        
+      </div><!-- /content -->
+      <div data-role="footer" id="msg-footer">
+        <div class="closeBtnDiv">
+          <a href="javascript:void(0);" data-role="button" class="close-dialog-Button">确定</a>
+        </div>
+      </div><!-- /footer -->
+    </div><!-- /page -->
+  </body>
+</html>
+
+<script type="text/javascript">
+  (function(window, $) {
+    //var redirect_uri,
+    var msgContent = $("#msg-content"),
+        showDialogBtn = $("#show-dialog");
+
+    /*
+    var redirect = function(redirect_uri) {
+      if(redirect_uri === undefined) {
+        history.back();
+      } else {
+        window.location.href = redirect_uri;
+      } 
+    };
+    */
+
+    $("#logoff").click(function() {
+      $.post("/cgi-bin/clih3c-logoff", {}, function(res) {
+        if(res.err === true) {
+          msgContent.html("出错啦~退出登录失败");
+        } else {
+          msgContent.html("成功退出");
+
+          //redirect_uri = res.redirect_uri;
+         }
+
+        showDialogBtn.click();
+      }); 
+    });
+
+    $(document).on("click", ".ui-icon-delete", "", function() {
+      $("#login-dialog").dialog("close");
+      //redirect(redirect_uri);
+      location.reload();
+    });
+
+    $(".close-dialog-Button").click(function() {
+      $("#login-dialog").dialog("close");
+      //redirect(redirect_uri);
+      location.reload();
+    });
+  }(window, jQuery))
+</script>

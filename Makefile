@@ -11,7 +11,7 @@ include $(INCLUDE_DIR)/package.mk
 define Package/$(PKG_NAME)
         SECTION:=utils
         CATEGORY:=Utilities
-        DEPENDS:=+libc +libgcc
+        DEPENDS:=+libc +libgcc +uhttpd +clih3c
         TITLE:=clih3c-cgi
         PKGARCH:=ar71xx
         MAINTAINER:=zonyitoo
@@ -47,8 +47,14 @@ endef
 #endef
 
 define Package/$(PKG_NAME)/install
+		$(INSTALL_DIR) $(1)/www
+		$(CP) $(PKG_BUILD_DIR)/index.html $(1)/www
 		$(INSTALL_DIR) $(1)/www/cgi-bin
 		$(INSTALL_BIN) $(PKG_BUILD_DIR)/clih3c.cgi $(1)/www/cgi-bin
+		$(INSTALL_BIN) $(PKG_BUILD_DIR)/clih3c-login $(1)/www/cgi-bin
+		$(INSTALL_BIN) $(PKG_BUILD_DIR)/clih3c-logoff $(1)/www/cgi-bin
+		$(INSTALL_DIR) $(1)/www/clih3c-cgi
+		$(CP) $(PKG_BUILD_DIR)/clih3c-cgi/* $(1)/www/clih3c-cgi/
 endef
 
 #define Package/$(PKG_NAME)/preinst

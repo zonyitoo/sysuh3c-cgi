@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+  <head>
+    <meta charset="utf-8">
+    <title>Mobile-Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Login">
+    <meta name="author" content="CyrilZhao">
+    <link rel="stylesheet" href="/clih3c-cgi/css/jquery.mobile-1.3.1.min.css" />
+    <script src="/clih3c-cgi/js/jquery-1.9.1.min.js"></script>
+    <script src="/clih3c-cgi/js/jquery.mobile-1.3.1.min.js"></script>
+    <style type="text/css">
+      .style-in-pc-content {
+        width: 500px;
+        margin: 0 auto;
+      }
+
+      #msg-content {
+        text-align: center;
+        font-weight: bold;
+      }
+
+      #show-dialog {
+        display: none;
+      }
+
+      .closeBtnDiv {
+        display: block;
+        width: 80px;
+        margin: 0 auto;
+        text-align: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div data-role="page">
+      <div data-role="header">
+        <h1>User Login</h1>
+      </div><!-- /header -->
+      <div data-role="content" id="login-content">   
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name" data-clear-btn="true">
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" data-clear-btn="true">
+        <a href="index.html" data-role="button" data-inline="true" data-theme="b" id="login">Login</a>
+        <a href="#login-dialog" data-rel="dialog" id="show-dialog">Open dialog</a> 
+      </div><!-- /content -->
+    </div><!-- /page -->
+
+    <div data-role="page" id="login-dialog">
+      <div data-role="header" data-backbtn="false">
+        <h1>Dialog Title</h1>
+      </div><!-- /header -->
+      <div data-role="content" id="msg-content">   
+    
+      </div><!-- /content -->
+      <div data-role="footer" id="msg-footer">
+        <div class="closeBtnDiv">
+          <a href="javascript:void(0);" data-role="button" class="close-dialog-Button">确定</a>
+        </div>
+      </div><!-- /footer -->
+    </div><!-- /page -->
+  </body>
+</html>
+
+<script type="text/javascript">
+  (function(window, $) {
+    if((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i))) {
+      // Apple-device?
+    } else if(navigator.userAgent.match(/Android/i)) {
+      // Android-device?
+    } else {
+      // PC
+      var loginContent = document.getElementById("login-content");
+
+      loginContent.className = "style-in-pc-content";
+    }
+
+    //var redirect_uri,
+    var msgContent = $("#msg-content"),
+        showDialogBtn = $("#show-dialog");
+
+    /*
+    var redirect = function(redirect_uri) {
+      if(redirect_uri === undefined) {
+        history.back();
+      } else {
+        window.location.href = redirect_uri;
+      } 
+    };
+    */
+
+    var sendLoginMsg = function(name, password) {
+      redirect_uri = undefined;
+      $.post("/cgi-bin/clih3c-login", {"name": name, "passwd": password}, function(res) {
+        if(res.err === false) {
+          msgContent.html("登录成功");
+          
+          //redirect_uri = res.redirect_uri;
+        } else {
+          msgContent.html("登录失败，请检查用户名密码是否正确");
+        }
+
+        showDialogBtn.click();
+      });
+    }
+
+    $(".close-dialog-Button").click(function() {
+      //redirect(redirect_uri);
+      location.reload();
+    });
+
+    $(document).on("click", ".ui-icon-delete", "", function() {
+      //redirect(redirect_uri);
+      location.reload();
+    });
+    
+    $("#login").click(function() {
+      var name = $("input[name='name']").val();
+      var password = $("input[name='password']").val();
+
+      sendLoginMsg(name, password);
+
+      return false;
+    });
+    
+  }(window, jQuery))
+</script>
