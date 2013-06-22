@@ -19,7 +19,7 @@ void gen_loginpage(int show) {
     else if (show == 2)
         fprintf(cgiOut, "<h2> FAILED </h2>");
 
-    fprintf(cgiOut, "<form method=\"POST\" enctype=\"multipart/form-data\" action=\"/cgi-bin/clih3c-cgi\"> ");
+    fprintf(cgiOut, "<form method=\"POST\" enctype=\"multipart/form-data\" action=\"/cgi-bin/clih3c.cgi\"> ");
     fprintf(cgiOut, "<p>NetID <input type=\"text\" name=\"name\"> </p> ");
     fprintf(cgiOut, "<p>Password <input type=\"password\" name=\"passwd\"> </p> ");
     fprintf(cgiOut, "<input type=\"submit\" name=\"login\" value=\"Login\"> ");
@@ -36,7 +36,7 @@ void gen_logoffpage() {
     fprintf(cgiOut, "<meta id=\"viewport\" name=\"viewport\" content=\"width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;\"> ");
     fprintf(cgiOut, "</head>");
     fprintf(cgiOut, "<body>");
-    fprintf(cgiOut, "<form method=\"POST\" enctype=\"multipart/form-data\" action=\"/cgi-bin/clih3c-cgi\"> ");
+    fprintf(cgiOut, "<form method=\"POST\" enctype=\"multipart/form-data\" action=\"/cgi-bin/clih3c.cgi\"> ");
     fprintf(cgiOut, "<input type=\"submit\" name=\"logoff\" value=\"Logoff\">");
     fprintf(cgiOut, "</form>");
     fprintf(cgiOut, "</body>");

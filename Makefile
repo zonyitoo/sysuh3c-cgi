@@ -48,7 +48,7 @@ endef
 
 define Package/$(PKG_NAME)/install
 		$(INSTALL_DIR) $(1)/www/cgi-bin
-		$(INSTALL_BIN) $(PKG_BUILD_DIR)/clih3c-cgi $(1)/www/cgi-bin
+		$(INSTALL_BIN) $(PKG_BUILD_DIR)/clih3c.cgi $(1)/www/cgi-bin
 endef
 
 #define Package/$(PKG_NAME)/preinst
