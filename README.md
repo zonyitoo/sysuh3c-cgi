@@ -8,7 +8,7 @@
 
 ## Compile
 
-* First you should get the OpenWRT-SDK. See [here](http://wiki.openwrt.org/zh-cn/doc/howto/obtain.firmware.sdk) for more detail.
+* First you should get the **OpenWRT-SDK**. See [here](http://wiki.openwrt.org/zh-cn/doc/howto/obtain.firmware.sdk) for more detail.
 
 * Then `cd` into the SDK Directory.
 
@@ -17,7 +17,7 @@ git clone git@github.com:zonyitoo/clih3c-cgi.git package/clih3c-cgi
 make
 ```
 
-* You will get the clih3c-cgi\_0.1-1\_ar71xx.ipk in bin/ar71xx/package
+* You will get the `clih3c-cgi_0.1-1_[arch].ipk` in `bin/[arch]/package`
 
 ## Usage
 
