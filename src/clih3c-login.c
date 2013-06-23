@@ -22,6 +22,45 @@ void gen_page(const char * fname) {
     fclose(fp);
 }
 
+void escape_arg(char * to, const char * from) {
+    while (*from) {
+        switch (*from) {
+            case '\'':
+            case '(':
+            case ')':
+            case '"':
+            case '{':
+            case '}':
+            case '#':
+            case ';':
+            case '&':
+            case '.':
+            case '`':
+            case ':':
+            case '>':
+            case '<':
+            case '*':
+            case '!':
+            case '?':
+            case '$':
+            case '[':
+            case ']':
+            case ',':
+            case '|':
+            case '-':
+            case '=':
+            case '+':
+            case '%':
+            case '~':
+            case '^':
+                * to ++ = '\\';
+            default:
+                * to ++ = *from;
+        }
+        from ++;
+    }
+}
+
 int cgiMain() {
 
     if (strncmp(cgiRequestMethod, "POST", 4) == 0) {
@@ -36,14 +75,20 @@ int cgiMain() {
         namelen = strlen(name);
         pwdlen = strlen(passwd);
 
+        char esc_name[40] = {0};
+        char esc_pwd[40] = {0};
+
         cgiHeaderContentType("application/json");
         if (namelen == 0 || namelen > 16 || pwdlen == 0 || pwdlen > 16) {
             fprintf(cgiOut, "{\"err\": true, \"msg\": \"Argument Error\"}");
             return 0;
         }
+        
+        escape_arg(esc_name, name);
+        escape_arg(esc_pwd, passwd);
 
         char cmd[64] = {0};
-        snprintf(cmd, sizeof(cmd), "clih3c -u %s -p %s -d >> /dev/null", name, passwd);
+        snprintf(cmd, sizeof(cmd), "clih3c -u %s -p %s -d >> /dev/null", esc_name, esc_pwd);
         int ret = system(cmd);
 
         if (ret == 0) {
