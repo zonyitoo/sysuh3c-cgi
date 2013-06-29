@@ -1,6 +1,6 @@
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=clih3c-cgi
+PKG_NAME:=sysuh3c-cgi
 PKG_VERSION:=0.1
 PKG_RELEASE:=1
 
@@ -11,14 +11,14 @@ include $(INCLUDE_DIR)/package.mk
 define Package/$(PKG_NAME)
         SECTION:=utils
         CATEGORY:=Utilities
-        DEPENDS:=+libc +libgcc +uhttpd +clih3c
-        TITLE:=clih3c-cgi
+        DEPENDS:=+libc +libgcc +uhttpd +sysuh3c
+        TITLE:=sysuh3c-cgi
         PKGARCH:=ar71xx
         MAINTAINER:=zonyitoo
 endef
 
 define Package/$(PKG_NAME)/description
-      	CGI for CLIH3C.
+      	CGI for SYSUH3C.
 endef
 
 #非本目录下的源码文件, 拷贝到此相应目录下.
@@ -50,11 +50,11 @@ define Package/$(PKG_NAME)/install
 		$(INSTALL_DIR) $(1)/www
 		$(CP) $(PKG_BUILD_DIR)/index.html $(1)/www
 		$(INSTALL_DIR) $(1)/www/cgi-bin
-		$(INSTALL_BIN) $(PKG_BUILD_DIR)/clih3c.cgi $(1)/www/cgi-bin
-		$(INSTALL_BIN) $(PKG_BUILD_DIR)/clih3c-login $(1)/www/cgi-bin
-		$(INSTALL_BIN) $(PKG_BUILD_DIR)/clih3c-logoff $(1)/www/cgi-bin
-		$(INSTALL_DIR) $(1)/www/clih3c-cgi
-		$(CP) $(PKG_BUILD_DIR)/clih3c-cgi/* $(1)/www/clih3c-cgi/
+		$(INSTALL_BIN) $(PKG_BUILD_DIR)/sysuh3c.cgi $(1)/www/cgi-bin
+		$(INSTALL_BIN) $(PKG_BUILD_DIR)/sysuh3c-login $(1)/www/cgi-bin
+		$(INSTALL_BIN) $(PKG_BUILD_DIR)/sysuh3c-logoff $(1)/www/cgi-bin
+		$(INSTALL_DIR) $(1)/www/sysuh3c-cgi
+		$(CP) $(PKG_BUILD_DIR)/sysuh3c-cgi/* $(1)/www/sysuh3c-cgi/
 endef
 
 #define Package/$(PKG_NAME)/preinst
@@ -78,9 +78,9 @@ endef
 
 #define Package/$(PKG_NAME)/prerm
 #		#!/bin/sh
-#		if [ -f /tmp/clih3c.lock ]; then
-#			cat /tmp/clih3c.lock | while read CLIH3C_LOCK; do kill -int $CLIH3C_LOCK; done
-#			rm -f /tmp/clih3c.lock
+#		if [ -f /tmp/sysuh3c.lock ]; then
+#			cat /tmp/sysuh3c.lock | while read sysuh3c_LOCK; do kill -int $sysuh3c_LOCK; done
+#			rm -f /tmp/sysuh3c.lock
 #		fi
 #endef
 

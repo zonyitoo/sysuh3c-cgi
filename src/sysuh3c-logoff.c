@@ -7,7 +7,7 @@ int cgiMain() {
 
     if (strncmp(cgiRequestMethod, "POST", 4) == 0) {
 
-        int ret = system("clih3c -l >> /dev/null");
+        int ret = system("sysuh3c -l >> /dev/null");
 
         cgiHeaderContentType("application/json");
         if (ret == 0) {

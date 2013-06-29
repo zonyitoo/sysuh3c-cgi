@@ -69,7 +69,7 @@ int cgiMain() {
         escape_arg(esc_pwd, passwd);
 
         char cmd[64] = {0};
-        snprintf(cmd, sizeof(cmd), "clih3c -u %s -p %s -d >> /dev/null", esc_name, esc_pwd);
+        snprintf(cmd, sizeof(cmd), "sysuh3c -u %s -p %s -d >> /dev/null", esc_name, esc_pwd);
         int ret = system(cmd);
 
         if (ret == 0) {
