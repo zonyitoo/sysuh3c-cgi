@@ -7,8 +7,8 @@
     <meta name="description" content="Login">
     <meta name="author" content="CyrilZhao">
     <link rel="stylesheet" href="/sysuh3c-cgi/css/jquery.mobile-1.3.1.min.css" />
-    <script src="/clih3c-cgi/js/jquery-1.9.1.min.js"></script>
-    <script src="/clih3c-cgi/js/jquery.mobile-1.3.1.min.js"></script>
+    <script src="/sysuh3c-cgi/js/jquery-1.9.1.min.js"></script>
+    <script src="/sysuh3c-cgi/js/jquery.mobile-1.3.1.min.js"></script>
     <style type="text/css">
       #show-dialog {
         display: none;
@@ -79,7 +79,7 @@
     */
 
     $("#logoff").click(function() {
-      $.post("/cgi-bin/clih3c-logoff", {}, function(res) {
+      $.post("/cgi-bin/sysuh3c-logoff", {}, function(res) {
         if(res.err === true) {
           msgContent.html("出错啦~退出登录失败");
         } else {

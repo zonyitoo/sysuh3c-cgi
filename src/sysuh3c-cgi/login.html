@@ -7,8 +7,8 @@
     <meta name="description" content="Login">
     <meta name="author" content="CyrilZhao">
     <link rel="stylesheet" href="/sysuh3c-cgi/css/jquery.mobile-1.3.1.min.css" />
-    <script src="/clih3c-cgi/js/jquery-1.9.1.min.js"></script>
-    <script src="/clih3c-cgi/js/jquery.mobile-1.3.1.min.js"></script>
+    <script src="/sysuh3c-cgi/js/jquery-1.9.1.min.js"></script>
+    <script src="/sysuh3c-cgi/js/jquery.mobile-1.3.1.min.js"></script>
     <style type="text/css">
       .style-in-pc-content {
         width: 500px;
@@ -93,7 +93,7 @@
 
     var sendLoginMsg = function(name, password) {
       redirect_uri = undefined;
-      $.post("/cgi-bin/clih3c-login", {"name": name, "passwd": password}, function(res) {
+      $.post("/cgi-bin/sysuh3c-login", {"name": name, "passwd": password}, function(res) {
         if(res.err === false) {
           msgContent.html("登录成功");
           
