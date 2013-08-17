@@ -6,7 +6,7 @@
 void gen_page(const char * fname) {
     if (fname == NULL) return;
 
-    static const char *src_path = "/www/clih3c-cgi";
+    static const char *src_path = "/www/sysuh3c-cgi";
     char fullpath[128] = {0};
     snprintf(fullpath, sizeof(fullpath), "%s/%s", src_path, fname);
 
@@ -25,7 +25,7 @@ void gen_page(const char * fname) {
 int cgiMain() {
     
     if (strncmp(cgiRequestMethod, "GET", 3) == 0) {
-        FILE * fp = fopen("/tmp/clih3c.lock", "r");
+        FILE * fp = fopen("/tmp/sysuh3c.lock", "r");
         if (fp) {
             gen_page("logoff.html");
             fclose(fp);
