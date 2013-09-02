@@ -6,34 +6,9 @@
 void escape_arg(char * to, const char * from) {
     while (*from) {
         switch (*from) {
-            case '\'':
-            case '(':
-            case ')':
             case '"':
-            case '{':
-            case '}':
-            case '#':
-            case ';':
-            case '&':
-            case '.':
             case '`':
-            case ':':
-            case '>':
-            case '<':
-            case '*':
             case '!':
-            case '?':
-            case '$':
-            case '[':
-            case ']':
-            case ',':
-            case '|':
-            case '-':
-            case '=':
-            case '+':
-            case '%':
-            case '~':
-            case '^':
                 * to ++ = '\\';
             default:
                 * to ++ = *from;
@@ -69,7 +44,7 @@ int cgiMain() {
         escape_arg(esc_pwd, passwd);
 
         char cmd[64] = {0};
-        snprintf(cmd, sizeof(cmd), "sysuh3c -u %s -p %s -d >> /dev/null", esc_name, esc_pwd);
+        snprintf(cmd, sizeof(cmd), "sysuh3c -u \"%s\" -p \"%s\" -d >> /dev/null", esc_name, esc_pwd);
         int ret = system(cmd);
 
         if (ret == 0) {
