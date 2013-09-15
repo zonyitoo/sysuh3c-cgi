@@ -16,8 +16,16 @@
 * Then `cd` into the SDK Directory.
 
 ```bash
-git clone git@github.com:zonyitoo/sysuh3c-cgi.git package/syush3c-cgi
-make
+git clone git@github.com:zonyitoo/sysuh3c-cgi.git package/sysuh3c-cgi
+```
+
+* Modify sysuh3c-cgi/Makefile
+
+```makefile
+define Package/$(PKG_NAME)
+    ...
+    PKGARCH=[arch]
+endef
 ```
 
 * You will get the `sysuh3c-cgi_[version]-1_[arch].ipk` in `bin/[arch]/package`
