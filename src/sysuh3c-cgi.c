@@ -25,7 +25,7 @@ void gen_page(const char * fname) {
 int cgiMain() {
     
     if (strncmp(cgiRequestMethod, "GET", 3) == 0) {
-        FILE * fp = fopen("/tmp/sysuh3c.lock", "r");
+        FILE * fp = fopen("/var/run/sysuh3c.pid", "r");
         if (fp) {
             gen_page("logoff.html");
             fclose(fp);
