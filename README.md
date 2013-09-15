@@ -13,11 +13,11 @@
 * Then `cd` into the SDK Directory.
 
 ```bash
-git clone git@github.com:zonyitoo/clih3c-cgi.git package/clih3c-cgi
+git clone git@github.com:zonyitoo/sysuh3c-cgi.git package/syush3c-cgi
 make
 ```
 
-* You will get the `clih3c-cgi_0.1-1_[arch].ipk` in `bin/[arch]/package`
+* You will get the `sysuh3c-cgi_[version]-1_[arch].ipk` in `bin/[arch]/package`
 
 ## Usage
 
@@ -27,9 +27,9 @@ make
 /etc/init.d/uhttpd start
 ```
 
-* Open your browser, visit the URL: `http://192.168.1.1/cgi-bin/clih3c.cgi`
+* Open your browser, visit the URL: `http://192.168.1.1/cgi-bin/sysuh3c.cgi`
 
 *It supports all mobile phone.*
 
 ## Screenshot
-![screenshot](https://raw.github.com/zonyitoo/clih3c-cgi/master/screenshot.png)
+![screenshot](https://raw.github.com/zonyitoo/sysuh3c-cgi/master/screenshot.png)
