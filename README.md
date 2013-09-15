@@ -1,10 +1,13 @@
 # Login CGI for CLI H3C
-[CLI H3C](https://github.com/zonyitoo/clih3c) is a H3C client.
+[SYSU H3C](https://github.com/zonyitoo/sysuh3c) is a H3C client.
+
+*Only tested in SYSU east campus*
 
 ## Depencences
 * uhttpd
 * libc
 * libgcc
+* [sysuh3c](https://github.com/zonyitoo/sysuh3c)
 
 ## Compile
 
