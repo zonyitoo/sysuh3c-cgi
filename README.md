@@ -30,3 +30,6 @@ make
 * Open your browser, visit the URL: `http://192.168.1.1/cgi-bin/clih3c.cgi`
 
 *It supports all mobile phone.*
+
+## Screenshot
+![screenshot](https://raw.github.com/zonyitoo/clih3c-cgi/master/screenshot.png)
