@@ -1,129 +1,73 @@
 <!DOCTYPE html>
-<html lang="zh_cn">
+<html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Mobile-Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Login">
-    <meta name="author" content="CyrilZhao">
-    <link rel="stylesheet" href="/sysuh3c-cgi/css/jquery.mobile-1.3.1.min.css" />
-    <script src="/sysuh3c-cgi/js/jquery-1.9.1.min.js"></script>
-    <script src="/sysuh3c-cgi/js/jquery.mobile-1.3.1.min.js"></script>
-    <style type="text/css">
-      .style-in-pc-content {
-        width: 500px;
-        margin: 0 auto;
-      }
+    <meta name="description" content="SYSU H3C Login Page">
+    <meta name="author" content="Y.T. CHUNG">
+    <link rel="shortcut icon" href="/sysuh3c-cgi/static/img/favicon.png">
 
-      #msg-content {
-        text-align: center;
-        font-weight: bold;
-      }
+    <title>Login | SYSU H3C</title>
 
-      #show-dialog {
-        display: none;
-      }
+    <!-- Bootstrap core CSS -->
+    <link href="/sysuh3c-cgi/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-      .closeBtnDiv {
-        display: block;
-        width: 80px;
-        margin: 0 auto;
-        text-align: center;
+    <link href="/sysuh3c-cgi/static/css/form.css" rel="stylesheet">
+    <style>
+      .form-login input[type="text"] {
+        margin-bottom: -1px;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+      .form-login input[type="password"] {
+        margin-bottom: 10px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
       }
     </style>
-  </head>
+    </head>
 
   <body>
-    <div data-role="page">
-      <div data-role="header">
-        <h1>User Login</h1>
-      </div><!-- /header -->
-      <div data-role="content" id="login-content">   
-        <label for="name">Name:</label>
-        <input type="text" name="name" id="name" data-clear-btn="true">
-        <label for="password">Password:</label>
-        <input type="password" name="password" id="password" data-clear-btn="true">
-        <a href="index.html" data-role="button" data-inline="true" data-theme="b" id="login">Login</a>
-        <a href="#login-dialog" data-rel="dialog" id="show-dialog">Open dialog</a> 
-      </div><!-- /content -->
-    </div><!-- /page -->
+    <div class="container">
 
-    <div data-role="page" id="login-dialog">
-      <div data-role="header" data-backbtn="false">
-        <h1>Dialog Title</h1>
-      </div><!-- /header -->
-      <div data-role="content" id="msg-content">   
-    
-      </div><!-- /content -->
-      <div data-role="footer" id="msg-footer">
-        <div class="closeBtnDiv">
-          <a href="javascript:void(0);" data-role="button" class="close-dialog-Button">确定</a>
-        </div>
-      </div><!-- /footer -->
-    </div><!-- /page -->
+      <div class="alert alert-danger" style="display:none;">
+        <b>Oh snap!</b> Error!!
+      </div>
+      <form class="form-login" id="form_login">
+        <h2 class="form-login-heading">Login</h2>
+        <input id="form_netid" name="name" type="text" class="form-control" placeholder="NetID" autofocus>
+        <input id="form_passwd" name="passwd" type="password" class="form-control" placeholder="Password">
+        <button class="btn btn-lg btn-primary btn-block" type="submit" id="form_submit" data-loading-text="Please wait..." >Login</button>
+      </form>
+
+    </div> <!-- /container -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <script src="/sysuh3c-cgi/static/js/jquery-2.0.3.min.js"></script>
+    <script src="/sysuh3c-cgi/static/bootstrap/js/bootstrap.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        $(".alert").hide();
+        $("#form_login").submit(function(e) {
+          $("#form_submit").button('loading');
+          $(".alert").hide();
+          e.preventDefault();
+          $.post('/cgi-bin/sysuh3c-login', $("#form_login").serialize(), function(data) {
+            if (data.err) {
+              $(".alert").show();
+            }
+            else {
+              localStorage.netid = $("#form_netid").val();
+              location.href = "/cgi-bin/sysuh3c.cgi";
+            }
+            $("#form_submit").button('reset');
+          }).error(function() {
+            $("#form_submit").button('reset');
+          });
+        });
+      });
+    </script>
+    <!-- Placed at the end of the document so the pages load faster -->
   </body>
 </html>
-
-<script type="text/javascript">
-  (function(window, $) {
-    if((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i))) {
-      // Apple-device?
-    } else if(navigator.userAgent.match(/Android/i)) {
-      // Android-device?
-    } else {
-      // PC
-      var loginContent = document.getElementById("login-content");
-
-      loginContent.className = "style-in-pc-content";
-    }
-
-    //var redirect_uri,
-    var msgContent = $("#msg-content"),
-        showDialogBtn = $("#show-dialog");
-
-    /*
-    var redirect = function(redirect_uri) {
-      if(redirect_uri === undefined) {
-        history.back();
-      } else {
-        window.location.href = redirect_uri;
-      } 
-    };
-    */
-
-    var sendLoginMsg = function(name, password) {
-      redirect_uri = undefined;
-      $.post("/cgi-bin/sysuh3c-login", {"name": name, "passwd": password}, function(res) {
-        if(res.err === false) {
-          msgContent.html("登录成功");
-          
-          //redirect_uri = res.redirect_uri;
-        } else {
-          msgContent.html("登录失败，请检查用户名密码是否正确");
-        }
-
-        showDialogBtn.click();
-      });
-    }
-
-    $(".close-dialog-Button").click(function() {
-      //redirect(redirect_uri);
-      location.reload();
-    });
-
-    $(document).on("click", ".ui-icon-delete", "", function() {
-      //redirect(redirect_uri);
-      location.reload();
-    });
-    
-    $("#login").click(function() {
-      var name = $("input[name='name']").val();
-      var password = $("input[name='password']").val();
-
-      sendLoginMsg(name, password);
-
-      return false;
-    });
-    
-  }(window, jQuery))
-</script>

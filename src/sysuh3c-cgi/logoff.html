@@ -1,107 +1,69 @@
 <!DOCTYPE html>
-<html lang="zh_cn">
+<html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Mobile-Logoff</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Login">
-    <meta name="author" content="CyrilZhao">
-    <link rel="stylesheet" href="/sysuh3c-cgi/css/jquery.mobile-1.3.1.min.css" />
-    <script src="/sysuh3c-cgi/js/jquery-1.9.1.min.js"></script>
-    <script src="/sysuh3c-cgi/js/jquery.mobile-1.3.1.min.js"></script>
-    <style type="text/css">
-      #show-dialog {
-        display: none;
-      }
+    <meta name="description" content="SYSU H3C Login Page">
+    <meta name="author" content="Y.T. CHUNG">
+    <link rel="shortcut icon" href="/sysuh3c-cgi/static/img/favicon.png">
 
-      #msg-content {
-        text-align: center;
-        font-weight: bold;
-      }
+    <title>Logoff | SYSU H3C</title>
 
-      .content {
-        width: 100px;
-        margin: 0 auto;
-      }
+    <!-- Bootstrap core CSS -->
+    <link href="/sysuh3c-cgi/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-      .closeBtnDiv {
-        display: block;
-        width: 80px;
-        margin: 0 auto;
-        text-align: center;
-      }
-    </style>
+    <link href="/sysuh3c-cgi/static/css/form.css" rel="stylesheet">
   </head>
 
   <body>
-    <div data-role="page">
-      <div data-role="header">
-        <h1>User Logoff</h1>
-      </div><!-- /header -->
-      <div data-role="content" id="logoff-content">
-        <div class="content">   
-          <a data-role="button" data-inline="true" data-theme="b" id="logoff">Logoff</a>
-          <a href="#logoff-dialog" data-rel="dialog" id="show-dialog">Open dialog</a> 
-        </div>
-      </div><!-- /content -->
-    </div><!-- /page -->
 
-    <div data-role="page" id="logoff-dialog">
-      <div data-role="header" data-backbtn="false">
-        <h1>Dialog Title</h1>
-      </div><!-- /header -->
-      <div data-role="content" id="msg-content">   
-        
-      </div><!-- /content -->
-      <div data-role="footer" id="msg-footer">
-        <div class="closeBtnDiv">
-          <a href="javascript:void(0);" data-role="button" class="close-dialog-Button">确定</a>
-        </div>
-      </div><!-- /footer -->
-    </div><!-- /page -->
+    <div class="container">
+
+      <div class="alert alert-danger" style="display:none">
+        <b>Oh snap!</b> Error!!
+      </div>
+      <form class="form-logoff" id="form_logoff">
+        <h2 class="form-logoff-heading">Logoff</h2>
+        <input id="form_netid" disabled="disabled" name="name" type="text" class="form-control" placeholder="NetID" autofocus>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" id="form_submit" data-loading-text="Please wait..." >Logoff</button>
+      </form>
+
+    </div> <!-- /container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <script src="/sysuh3c-cgi/static/js/jquery-2.0.3.min.js"></script>
+    <script src="/sysuh3c-cgi/static/bootstrap/js/bootstrap.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        $(".alert").hide();
+        if (localStorage.netid) {
+          $("#form_netid").val(localStorage.netid);
+        }
+
+        $("#form_logoff").submit(function(e) {
+          $(".alert").hide();
+          e.preventDefault();
+          $.post('/cgi-bin/sysuh3c-logoff', {}, function(data) {
+            if (data.err) {
+              $(".alert").show();
+            }
+            else {
+              if (localStorage.netid) {
+                delete localStorage.netid;
+              }
+              location.href = "/cgi-bin/sysuh3c.cgi";
+            }
+            $("#form_submit").button('reset');
+          }).error(function() {
+            location.href = "/cgi-bin/sysuh3c.cgi";
+          });
+          $("#form_submit").button('loading');
+        });
+      });
+    </script>
+    
+    <!-- Placed at the end of the document so the pages load faster -->
   </body>
 </html>
-
-<script type="text/javascript">
-  (function(window, $) {
-    //var redirect_uri,
-    var msgContent = $("#msg-content"),
-        showDialogBtn = $("#show-dialog");
-
-    /*
-    var redirect = function(redirect_uri) {
-      if(redirect_uri === undefined) {
-        history.back();
-      } else {
-        window.location.href = redirect_uri;
-      } 
-    };
-    */
-
-    $("#logoff").click(function() {
-      $.post("/cgi-bin/sysuh3c-logoff", {}, function(res) {
-        if(res.err === true) {
-          msgContent.html("出错啦~退出登录失败");
-        } else {
-          msgContent.html("成功退出");
-
-          //redirect_uri = res.redirect_uri;
-         }
-
-        showDialogBtn.click();
-      }); 
-    });
-
-    $(document).on("click", ".ui-icon-delete", "", function() {
-      $("#login-dialog").dialog("close");
-      //redirect(redirect_uri);
-      location.reload();
-    });
-
-    $(".close-dialog-Button").click(function() {
-      $("#login-dialog").dialog("close");
-      //redirect(redirect_uri);
-      location.reload();
-    });
-  }(window, jQuery))
-</script>
