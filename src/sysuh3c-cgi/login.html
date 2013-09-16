@@ -31,13 +31,13 @@
     <div class="container">
 
       <div class="alert alert-danger" style="display:none;">
-        <b>Oh snap!</b> Error!!
+        <b>Oh snap!</b> Login error!! Check and then try again.
       </div>
       <form class="form-login" id="form_login">
         <h2 class="form-login-heading">Login</h2>
         <input id="form_netid" name="name" type="text" class="form-control" placeholder="NetID" autofocus>
         <input id="form_passwd" name="passwd" type="password" class="form-control" placeholder="Password">
-        <button class="btn btn-lg btn-primary btn-block" type="submit" id="form_submit" data-loading-text="Please wait..." >Login</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" id="form_submit" data-loading-text="Please wait..." >Click to Login</button>
       </form>
 
     </div> <!-- /container -->
@@ -51,7 +51,6 @@
         $(".alert").hide();
         $("#form_login").submit(function(e) {
           $("#form_submit").button('loading');
-          $(".alert").hide();
           e.preventDefault();
           $.post('/cgi-bin/sysuh3c-login', $("#form_login").serialize(), function(data) {
             if (data.err) {
@@ -59,10 +58,11 @@
             }
             else {
               localStorage.netid = $("#form_netid").val();
-              location.href = "/cgi-bin/sysuh3c.cgi";
+              location.reload();
             }
             $("#form_submit").button('reset');
           }).error(function() {
+            $(".alert").show();
             $("#form_submit").button('reset');
           });
         });

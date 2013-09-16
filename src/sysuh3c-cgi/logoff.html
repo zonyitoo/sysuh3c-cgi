@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="SYSU H3C Login Page">
+    <meta name="description" content="SYSU H3C Logoff Page">
     <meta name="author" content="Y.T. CHUNG">
     <link rel="shortcut icon" href="/sysuh3c-cgi/static/img/favicon.png">
 
@@ -20,12 +20,12 @@
     <div class="container">
 
       <div class="alert alert-danger" style="display:none">
-        <b>Oh snap!</b> Error!!
+        <b>Oh snap!</b> Logoff Error!!
       </div>
       <form class="form-logoff" id="form_logoff">
         <h2 class="form-logoff-heading">Logoff</h2>
-        <input id="form_netid" disabled="disabled" name="name" type="text" class="form-control" placeholder="NetID" autofocus>
-        <button class="btn btn-lg btn-primary btn-block" type="submit" id="form_submit" data-loading-text="Please wait..." >Logoff</button>
+        <input id="form_netid" disabled="disabled" name="name" type="text" class="form-control" placeholder="NetID">
+        <button class="btn btn-lg btn-primary btn-block" type="submit" id="form_submit" data-loading-text="Please wait..." autofocus>Click to Logoff</button>
       </form>
 
     </div> <!-- /container -->
@@ -41,9 +41,11 @@
         if (localStorage.netid) {
           $("#form_netid").val(localStorage.netid);
         }
+        else {
+          $("#form_netid").hide();
+        }
 
         $("#form_logoff").submit(function(e) {
-          $(".alert").hide();
           e.preventDefault();
           $.post('/cgi-bin/sysuh3c-logoff', {}, function(data) {
             if (data.err) {
@@ -53,11 +55,11 @@
               if (localStorage.netid) {
                 delete localStorage.netid;
               }
-              location.href = "/cgi-bin/sysuh3c.cgi";
+              location.reload();
             }
             $("#form_submit").button('reset');
           }).error(function() {
-            location.href = "/cgi-bin/sysuh3c.cgi";
+            $(".alert").show();
           });
           $("#form_submit").button('loading');
         });
