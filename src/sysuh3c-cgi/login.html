@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,37 +7,30 @@
     <meta name="author" content="Y.T. CHUNG">
     <link rel="shortcut icon" href="/sysuh3c-cgi/static/img/favicon.png">
 
-    <title>Login | SYSU H3C</title>
+    <title>登录 | SYSU H3C</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/sysuh3c-cgi/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <link href="/sysuh3c-cgi/static/css/form.css" rel="stylesheet">
-    <style>
-      .form-login input[type="text"] {
-        margin-bottom: -1px;
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
-      }
-      .form-login input[type="password"] {
-        margin-bottom: 10px;
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
-      }
-    </style>
     </head>
 
   <body>
     <div class="container">
-
-      <div class="alert alert-danger" style="display:none;">
-        <b>Oh snap!</b> Login error!! Check and then try again.
+      <div class="alert alert-info" id="alert_info">
+        <b>嗨！</b> (｀･ω･´) 输入NetID和密码登录
+      </div>
+      <div class="alert alert-danger" style="display:none;" id="alert_danger">
+        <b>噢，希特！</b> Σ( ° △ °|||)︴登录失败！请检查<code>sysuh3c</code>配置及用户名密码
+      </div>
+      <div class="alert alert-success" style="display:none;" id="alert_success">
+        <b>噢耶！</b> (●´ω｀●)φ 登录成功，正在刷新...
       </div>
       <form class="form-login" id="form_login">
-        <h2 class="form-login-heading">Login</h2>
+        <h2 class="form-login-heading">登录 <small><span class="label label-info">sysuh3c-cgi</span></small></h2>
         <input id="form_netid" name="name" type="text" class="form-control" placeholder="NetID" autofocus>
-        <input id="form_passwd" name="passwd" type="password" class="form-control" placeholder="Password">
-        <button class="btn btn-lg btn-primary btn-block" type="submit" id="form_submit" data-loading-text="Please wait..." >Click to Login</button>
+        <input id="form_passwd" name="passwd" type="password" class="form-control" placeholder="密码">
+        <button class="btn btn-lg btn-primary btn-block" type="submit" id="form_submit" data-loading-text="正在登录..." >登录</button>
       </form>
 
     </div> <!-- /container -->
@@ -48,21 +41,22 @@
     <script src="/sysuh3c-cgi/static/bootstrap/js/bootstrap.min.js"></script>
     <script>
       $(document).ready(function() {
-        $(".alert").hide();
         $("#form_login").submit(function(e) {
           $("#form_submit").button('loading');
           e.preventDefault();
           $.post('/cgi-bin/sysuh3c-login', $("#form_login").serialize(), function(data) {
+            $(".alert").hide();
             if (data.err) {
-              $(".alert").show();
+              $("#alert_danger").show();
             }
             else {
               localStorage.netid = $("#form_netid").val();
+              $("#alert_success").show();
               location.reload();
             }
             $("#form_submit").button('reset');
           }).error(function() {
-            $(".alert").show();
+            $("#alert_danger").show();
             $("#form_submit").button('reset');
           });
         });

@@ -9,6 +9,20 @@ body {
   padding: 15px;
   margin: 0 auto;
 }
+
+.form-login input[type="text"],
+.form-logoff input[type="text"] {
+  margin-bottom: -1px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.form-login input[type="password"],
+.form-logoff input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
 .form-login .form-login-heading,
 .form-login .checkbox,
 .form-logoff .form-logoff-heading,

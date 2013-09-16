@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +7,7 @@
     <meta name="author" content="Y.T. CHUNG">
     <link rel="shortcut icon" href="/sysuh3c-cgi/static/img/favicon.png">
 
-    <title>Logoff | SYSU H3C</title>
+    <title>下线 | SYSU H3C</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/sysuh3c-cgi/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -19,13 +19,21 @@
 
     <div class="container">
 
-      <div class="alert alert-danger" style="display:none">
-        <b>Oh snap!</b> Logoff Error!!
+      <div class="alert alert-danger" style="display:none;" id="alert_danger">
+        <b>噢，希特！</b> Σ( ° △ °|||)︴下线失败！请检查<code>sysuh3c</code>配置
       </div>
+      <div class="alert alert-info" id="alert_info">
+        <b>你已登录。</b> 若出现问题，可先下线再重登 ㄟ( ▔, ▔ )ㄏ
+      </div>
+      <div class="alert alert-success" style="display:none;" id="alert_success">
+        <b>噢耶！</b> (●´ω｀●)φ 下线成功，正在刷新...
+      </div>
+
       <form class="form-logoff" id="form_logoff">
-        <h2 class="form-logoff-heading">Logoff</h2>
+        <h2 class="form-logoff-heading">下线 <small><span class="label label-info">sysuh3c-cgi</span></small></h2>
         <input id="form_netid" disabled="disabled" name="name" type="text" class="form-control" placeholder="NetID">
-        <button class="btn btn-lg btn-primary btn-block" type="submit" id="form_submit" data-loading-text="Please wait..." autofocus>Click to Logoff</button>
+        <input id="form_passwd" disabled="disabled" name="passwd" type="password" class="form-control" placeholder="登录" value="2084a527a70f4d28b8abeb09b0db6da7">
+        <button class="btn btn-lg btn-primary btn-block" type="submit" id="form_submit" data-loading-text="正在下线..." autofocus>下线</button>
       </form>
 
     </div> <!-- /container -->
@@ -37,29 +45,33 @@
     <script src="/sysuh3c-cgi/static/bootstrap/js/bootstrap.min.js"></script>
     <script>
       $(document).ready(function() {
-        $(".alert").hide();
         if (localStorage.netid) {
           $("#form_netid").val(localStorage.netid);
         }
         else {
           $("#form_netid").hide();
+          $("#form_password").hide();
         }
 
         $("#form_logoff").submit(function(e) {
           e.preventDefault();
           $.post('/cgi-bin/sysuh3c-logoff', {}, function(data) {
+            $(".alert").hide();
             if (data.err) {
-              $(".alert").show();
+              $("#alert_danger").show();
             }
             else {
               if (localStorage.netid) {
                 delete localStorage.netid;
               }
               location.reload();
+              $("#alert_success").show();
             }
             $("#form_submit").button('reset');
           }).error(function() {
-            $(".alert").show();
+            $("#alert_danger").show();
+            $("#alert_success").hide();
+            $("#form_submit").button('reset');
           });
           $("#form_submit").button('loading');
         });

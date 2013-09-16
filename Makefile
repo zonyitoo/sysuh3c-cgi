@@ -57,12 +57,12 @@ define Package/$(PKG_NAME)/install
 		$(CP) $(PKG_BUILD_DIR)/sysuh3c-cgi/* $(1)/www/sysuh3c-cgi/
 endef
 
-define Package/$(PKG_NAME)/preinst
-[安装前执行的脚本 记得加上#!/bin/sh 没有就空着]
-	#!/bin/sh
-	rm -rf /www/sysuh3c-cgi
-	exit 0
-endef
+#define Package/$(PKG_NAME)/preinst
+#[安装前执行的脚本 记得加上#!/bin/sh 没有就空着]
+#	#!/bin/sh
+#	rm -rf /www/sysuh3c-cgi
+#	exit 0
+#endef
 
 #define Package/$(PKG_NAME)/postinst
 #[安装后执行的脚本 记得加上#!/bin/sh 没有就空着]
